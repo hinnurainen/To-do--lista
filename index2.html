@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+
+    <!-- Bootstrap-tyylikirjasto -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js"
+            integrity="sha384-5h4UG+6GOuV9qXh6HqOLwZMY4mnLPraeTrjT5v07o347pj6IkfuoASuGBhfDsp3d"
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+          integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK"
+          crossorigin="anonymous"
+    >
+
+    <!-- Oma ohjelmakoodi -->
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function () {
+        new Vue({
+          el: '#app',
+          data: {
+            muokattavaTodoItem: 0,
+            uusiTeksti: "",
+            iteminTeksti: "",
+            teksti: "Maailma valmiiksi!",
+            todoListItems: [
+                {text:"Tiskaa astiat."},
+                {text:"Pese pyykit."},
+                {text:"Tee siskonmakkarakeittoa."},
+                {text: "Hae lapses päiväkodista."},
+                {text:"Pussaa puolisoa."},
+                ]
+          },
+          methods: {
+            muutaTeksti: function(){
+                this.teksti = this.uusiTeksti;
+            },
+            lisaaTodoItem: function(){
+                this.todoListItems.push({ text: this.uusiTeksti });
+            },
+            poistaListalta: function(index) {
+                 this.todoListItems.splice(index, 1);
+            },
+            // Muuta funktioiden nimiä fiksummaksi.
+            muokkaaItemia: function(index) {
+                this.iteminTeksti=this.todoListItems[index].text;
+                this.muokattavaTodoItem = index;
+            },
+            muokkaaTodoItem: function() {
+                this.todoListItems[this.muokattavaTodoItem].text = this.iteminTeksti;
+            },
+          }
+        })
+      });
+    </script>
+
+    <!-- Omat tyylimäärittelyt kirjoitetaan tähän -->
+    <style>
+
+    </style>
+
+    <title>To do -lista</title>
+  </head>
+  <body>
+    <!-- Vuejs instanssi kiinnittyy tähän elementtiin ... el: '#app' -->
+    <div id="app">
+      <div>
+        <h2><b>{{teksti}}</b></h2>
+        <input v-model="uusiTeksti" />
+        <button v-on:click="lisaaTodoItem">
+        Lisää tehtävä listaan
+    </button>
+        <ul>
+            <li v-for="(item, index) in todoListItems">
+            {{ item.text }}
+            <button v-on:click="muokkaaItemia(index)">
+                Muokkaa
+                </button>
+            <button v-on:click="poistaListalta(index)">Poista</button>
+        </li>
+        </ul>
+        <input v-model="iteminTeksti" />
+        <button v-on:click="muokkaaTodoItem">
+        Muokkaa tehtävää
+    </button>
+    </div>
+    </div>
+  </body>
+</html>
